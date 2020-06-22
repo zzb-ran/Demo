@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/128-128-logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Video</title>
+  </head>
+  <body>
+    <div class="player-box">
+      <div class="player-container">
+        <div class="play-wrap">
+          <!-- 缓冲提示 -->
+          <div class="hcLonding">
+            <span>正在缓冲</span>
+            <i class="fa fa-ellipsis-h"></i>
+          </div>
+          <div class="next-hint"></div>
+          <!-- 视频 -->
+          <div class="video-container">
+            <video
+              src=""
+              crossorigin="anonymous"
+              preload="auto"
+              autoplay
+              metud
+            ></video>
+          </div>
+          <!-- 提示栏 -->
+          <div class="top-controls">
+            <div class="top-title"></div>
+            <div class="now-time">09:33</div>
+          </div>
+          <!-- 控制栏 -->
+          <div class="controls">
+            <!-- 鼠标在进度条上提示时间 -->
+            <div class="yu-time">
+              <span>00:00</span>
+            </div>
+            <div class="pro-bar">
+              <!-- 进度条 -->
+              <div class="player-progress">
+                <!-- 默认进度条 -->
+                <div class="pro"></div>
+                <!-- 缓冲进度条 -->
+                <div class="pro-hc"></div>
+                <!-- 播放多少进度条 -->
+                <div class="pro-play"></div>
+                <!-- 鼠标放在进度条上出现的提示线 -->
+                <div class="pro-lin"></div>
+                <!-- 鼠标放在进度条上出现的圆可按下拖动 -->
+                <div class="pro-ball"></div>
+              </div>
+            </div>
+            <div class="player-control">
+              <div class="control-left">
+                <!-- 播放暂停按钮 -->
+                <div class="play">
+                  <i class="fa fa-pause"></i>
+                </div>
+                <!-- 下一集按钮 -->
+                <div class="forward">
+                  <i class="fa fa-step-forward"></i>
+                </div>
+                <!-- 视频播放时间 -->
+                <div class="time">
+                  <span>00:00</span>
+                  <span>/</span>
+                  <span>00:00</span>
+                </div>
+              </div>
+              <div class="nl"></div>
+              <div class="control-right">
+                <!-- 倍速按钮 -->
+                <div class="fast">
+                  <span>倍速</span>
+                </div>
+                <!-- 声音按钮 -->
+                <div class="volume">
+                  <i class="fa fa-volume-up"></i>
+                </div>
+                <!-- 设置按钮 -->
+                <div class="settings">
+                  <i class="fa fa-cog"></i>
+                </div>
+                <!-- 全屏按钮 -->
+                <div class="expand">
+                  <i class="fa fa-expand"></i>
+                </div>
+              </div>
+            </div>
+            <div class="fast-control">
+              <!-- 倍速选择 -->
+              <div class="fast-wrap">
+                <ul>
+                  <li data-text="0.5">0.5X</li>
+                  <li data-text="0.75">0.75X</li>
+                  <li data-text="1">1.0X</li>
+                  <li data-text="1.5">1.5X</li>
+                  <li data-text="2">2.0X</li>
+                </ul>
+              </div>
+            </div>
+            <!-- 上下拖动改变声音 -->
+            <div class="volume-control">
+              <div class="volume-wrap">
+                <div class="volume-title"></div>
+                <div class="volume-pro">
+                  <div class="vol-play"></div>
+                  <div class="vol-lin"></div>
+                  <div class="vol-ball"></div>
+                </div>
+              </div>
+            </div>
+            <!-- 设置框 -->
+            <div class="settings-control">
+              <div class="settings-wrap">
+                <ul>
+                  <li>
+                    <div class="set-title">
+                      循环播放
+                    </div>
+                    <div class="button">
+                      <div class="btn-bor"></div>
+                      <div class="btn-ball"></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="collect-wrap">
+          <div class="title"></div>
+          <div class="collect">
+            <ul></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/hls.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/video.js"></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/key.js"></script>
+  </body>
+</html>
