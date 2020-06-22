@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    td {
+      width: 82px;
+      border: 1px solid hotpink;
+      border-radius: 3px;
+    }
+  </style>
+  <body>
+    <script>
+      //正常
+      document.write("<div>正常</div>");
+      document.write("<table>");
+      for (var row = 1; row <= 9; row++) {
+        document.write("<tr>");
+        for (var col = 1; col <= row; col++) {
+          var num = row * col;
+          if (num / 10 < 1) {
+            num = ` ${row * col}`;
+          }
+          document.write(`<td>${col} × ${row} = ${num}</td>`);
+        }
+        document.write("</tr>");
+      }
+      document.write("</table>");
+      //上下转180
+      document.write("<div>上下转180</div>");
+      document.write("<table>");
+      for (var row = 9; row > 0; row--) {
+        document.write("<tr>");
+        for (var col = 1; col <= row; col++) {
+          var num = row * col;
+          if (num / 10 < 1) {
+            num = ` ${row * col}`;
+          }
+          document.write(`<td>${col} × ${row} = ${num}</td>`);
+        }
+        document.write("</tr>");
+      }
+      document.write("</table>");
+      //左右转180
+      document.write("<div>左右转180</div>");
+      document.write("<table>");
+      for (var row = 1; row <= 9; row++) {
+        document.write("<tr>");
+        for (var blank = 9 - row; blank > 0; blank--) {
+          document.write("<td></td>");
+        }
+        for (var col = row; col > 0; col--) {
+          var num = row * col;
+          if (num / 10 < 1) {
+            num = ` ${row * col}`;
+          }
+          document.write(`<td>${col} × ${row} = ${num}</td>`);
+        }
+        document.write("</tr>");
+      }
+      document.write("</table>");
+      //左右上下转180
+      document.write("<div>上下左右转180</div>");
+      document.write("<table>");
+      for (var row = 9; row > 0; row--) {
+        document.write("<tr>");
+        for (var blank = 9 - row; blank > 0; blank--) {
+          document.write("<td></td>");
+        }
+        for (var col = row; col > 0; col--) {
+          var num = row * col;
+          if (num / 10 < 1) {
+            num = ` ${row * col}`;
+          }
+          document.write(`<td>${col} × ${row} = ${num}</td>`);
+        }
+        document.write("</tr>");
+      }
+      document.write("</table>");
+      for (var i = 0; i < document.querySelectorAll("td").length; i++) {
+        if (document.querySelectorAll("td")[i].innerHTML == "") {
+          document.querySelectorAll("td")[i].style.border = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

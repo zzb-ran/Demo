@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #root {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      text-transform: capitalize;
+      z-index: 10;
+    }
+    #animalsbox {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      z-index: 20;
+      background-color: #999999;
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 26px;
+      font-weight: bold;
+      transition: opacity ease-in-out 1s;
+    }
+    #animals {
+      width: 40%;
+      height: 40%;
+    }
+    p::selection {
+      background: black;
+      color: white;
+    }
+    p::-moz-selection {
+      background: black;
+      color: white;
+    }
+    p::-webkit-selection {
+      background: black;
+      color: white;
+    }
+  </style>
+  <body>
+    <div id="root"></div>
+    <div id="animalsbox"></div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.10/lottie_html.min.js"
+      type="text/javascript"
+    ></script>
+    <script>
+      var $root = document.querySelector("#root");
+      var $animalsbox = document.querySelector("#animalsbox");
+      var $animals = document.createElement("div");
+      var $loading = document.createTextNode("Loading...");
+      $animals.setAttribute("id", "animals");
+      $animalsbox.appendChild($animals);
+      $animalsbox.appendChild($loading);
+      var id = window.location.search.split("/")[1];
+      (async function () {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/posts/${id}`
+        );
+        const data = await response.json();
+        if (data) $animalsbox.style.opacity = 0;
+        $animalsbox.style.zIndex = 0;
+        CreateHander(data);
+      })();
+      function CreateHander(data) {
+        let $p = document.createElement("p");
+        var $body = document.createTextNode(data.body);
+        $p.appendChild($body);
+        $root.appendChild($p);
+        window.document.title = Capitalize(data.title);
+      }
+
+      function Capitalize(str) {
+        var arr = str.split(" ");
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].length !== 1) {
+            arr[i] =
+              arr[i][0].toUpperCase() +
+              arr[i].slice(1, arr[i].length).toLowerCase();
+          }
+        }
+        return arr.join(" ");
+      }
+      var animation = bodymovin.loadAnimation({
+        container: document.querySelector("#animals"), // Required
+        path: "animals.json", // Required
+        renderer: "svg", // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "Animals", // Name for future reference. Optional.
+      });
+    </script>
+  </body>
+</html>

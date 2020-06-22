@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var emojis = [
+        "🧡",
+        "💛",
+        "💚",
+        "💙",
+        "💜",
+        "❤",
+        "💕",
+        "💞",
+        "💓",
+        "💗",
+        "💖",
+        "💘",
+        "💝",
+        "💟",
+        "💌",
+      ];
+      function rd(arr) {
+        var $length = arr.length - 1,
+          $index,
+          $temp;
+        for (var i = $length; i >= 0; i--) {
+          $index = Math.floor(Math.random() * $length);
+          $temp = arr[$index];
+          arr[$index] = arr[i];
+          arr[i] = $temp;
+        }
+        for (var k = 0; k <= arr.length - 1; k++) {
+          var $span = document.createElement("span");
+          var $spanTitle = document.createTextNode(arr[k]);
+          $span.appendChild($spanTitle);
+          document.body.appendChild($span);
+        }
+      }
+      setInterval(() => {
+        document.body.innerText = "";
+        rd(emojis);
+      }, 1000);
+    </script>
+  </body>
+</html>

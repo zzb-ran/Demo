@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日历</title>
+  </head>
+  <style>
+    [v-clock] {
+      display: none;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    li {
+      list-style: none;
+    }
+    #app {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+    }
+    ul {
+      width: 100%;
+      height: 35px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0;
+    }
+    .main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+    }
+    .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid black;
+      border-right: 1px solid black;
+    }
+    .row:last-child {
+      border-bottom: 1px solid black;
+    }
+    .column {
+      width: 14.35%;
+      height: 60px;
+      line-height: 60px;
+      border-left: 1px solid black;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .column.today {
+      color: red;
+    }
+    .column.otherMonth {
+      color: rgba(1, 1, 1, 0.3);
+    }
+  </style>
+  <body>
+    <div id="app" v-clock>
+      <div>
+        <h3>{{ other.year }}年 {{ other.month + 1 }}月 {{ other.date }}日</h3>
+      </div>
+      <div>
+        <button @click="changeYear(-1)">上一年</button>
+        <button @click="changeMonth(-1)">上个月</button>
+        <button @click="Today">今天</button>
+        <button @click="changeMonth(1)">下个月</button>
+        <button @click="changeYear(1)">下一年</button>
+      </div>
+      <ul>
+        <li>一</li>
+        <li>二</li>
+        <li>三</li>
+        <li>四</li>
+        <li>五</li>
+        <li>六</li>
+        <li>日</li>
+      </ul>
+      <div class="main">
+        <!-- 行 -->
+        <div class="row" v-for="i in 6">
+          <!-- 列 -->
+          <div
+            class="column"
+            :class="{ 
+                today: MonthDays[(i-1) * 7 + j - 1].year === today.year &&
+                MonthDays[(i-1) * 7 + j - 1].month === today.month &&
+                MonthDays[(i-1) * 7 + j - 1].date === today.date,
+                otherMonth: MonthDays[(i-1) * 7 + j - 1].year === today.year &&
+                MonthDays[(i-1) * 7 + j - 1].month !== today.month
+            }"
+            v-for="j in 7"
+          >
+            {{ MonthDays[(i-1) * 7 + j - 1].date }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+      (function (Vue) {
+        new Vue({
+          el: "#app",
+          data() {
+            return {
+              today: {
+                year: 0,
+                month: 0,
+                date: 0,
+                day: 0,
+              },
+              other: {
+                year: 0,
+                month: 0,
+                date: 0,
+                day: 0,
+              },
+              isToday: false,
+              isOtherMonth: false,
+            };
+          },
+          computed: {
+            FisrtDay() {
+              //这个月的第一天
+              const Mday = new Date(this.other.year, this.other.month, 1);
+              const date = new Date(
+                this.other.year,
+                this.other.month,
+                1 - (Mday.getDay() - 1)
+              );
+              return {
+                year: date.getFullYear(),
+                month: date.getMonth(),
+                date: date.getDate(),
+                day: date.getDay(),
+              };
+            },
+            MonthDays() {
+              const DaysData = [];
+              for (var i = 0; i < 42; i++) {
+                const date = new Date(
+                  this.FisrtDay.year,
+                  this.FisrtDay.month,
+                  this.FisrtDay.date + i
+                );
+                DaysData.push({
+                  year: date.getFullYear(),
+                  month: date.getMonth(),
+                  date: date.getDate(),
+                  day: date.getDay(),
+                });
+              }
+              return DaysData;
+            },
+          },
+          mounted() {
+            this.Today();
+          },
+          methods: {
+            Today() {
+              const date = new Date();
+              this.today.year = this.other.year = date.getFullYear();
+              this.today.month = this.other.month = date.getMonth();
+              this.today.date = this.other.date = date.getDate();
+              this.today.day = this.other.day = date.getDay();
+            },
+            changeYear(fix) {
+              this.other.year += fix;
+            },
+            changeMonth(fix) {
+              const month = this.other.month + fix;
+              if (month < 0) {
+                this.other.month = 11;
+              } else if (month > 11) {
+                this.other.month = 0;
+              } else {
+                this.other.month = month;
+              }
+            },
+          },
+        });
+      })(Vue);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>计算器</title>
+  </head>
+  <style>
+    :root {
+      --button-width: 80px;
+      --button-height: 80px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #eee;
+      min-height: 100vh;
+    }
+    .container {
+      display: grid;
+      grid-template-areas:
+        "result result result result"
+        "clear pm percent except"
+        "num-7 num-8 num-9 pursue"
+        "num-4 num-5 num-6 subtract"
+        "num-1 num-2 num-3 add"
+        "num-0 num-0 point equal";
+      grid-template-columns: repeat(4, var(--button-width));
+      grid-template-rows: repeat(6, var(--button-height));
+      border-radius: 20px;
+      background: #f5f5f5;
+      box-shadow: 5px 5px 6px #e1e1e1, -5px -5px 6px #ffffff;
+      padding: 20px;
+    }
+    .result {
+      width: calc(var(--button-width) * 3.5);
+      height: var(--button-height);
+      text-align: right;
+      padding: 0 20px;
+      font-size: 26px;
+      line-height: var(--button-height);
+      user-select: none;
+      border-radius: 20px;
+      background: #f5f5f5;
+      box-shadow: 5px 5px 6px #e1e1e1 inset, -5px -5px 6px #ffffff inset;
+      overflow: hidden;
+    }
+    button {
+      margin: 8px;
+      border-radius: calc(var(--button-height) / 2);
+      background: #f5f5f5;
+      box-shadow: 5px 5px 9px #e4e4e4, -5px -5px 9px #ffffff;
+      border: none;
+      outline: none;
+      font-size: 22px;
+      color: #999999;
+      user-select: none;
+    }
+    button:active {
+      box-shadow: 5px 5px 9px #e4e4e4 inset, -5px -5px 9px #ffffff inset;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="result" style="grid-area: result;"></div>
+      <button style="grid-area: clear;" onclick="clears()">AC</button>
+      <button onclick="pm()" style="grid-area: pm;">±</button>
+      <button onclick="percent()" style="grid-area: percent;">%</button>
+      <button onclick="append('÷')" style="grid-area: except;">÷</button>
+      <button onclick="append('×')" style="grid-area: pursue;">×</button>
+      <button onclick="append('-')" style="grid-area: subtract;">-</button>
+      <button onclick="append('+')" style="grid-area: add;">+</button>
+      <button onclick="equal()" style="grid-area: equal;">=</button>
+      <button onclick="append(0)" style="grid-area: num-0;">0</button>
+      <button onclick="append(1)" style="grid-area: num-1;">1</button>
+      <button onclick="append(2)" style="grid-area: num-2;">2</button>
+      <button onclick="append(3)" style="grid-area: num-3;">3</button>
+      <button onclick="append(4)" style="grid-area: num-4;">4</button>
+      <button onclick="append(5)" style="grid-area: num-5;">5</button>
+      <button onclick="append(6)" style="grid-area: num-6;">6</button>
+      <button onclick="append(7)" style="grid-area: num-7;">7</button>
+      <button onclick="append(8)" style="grid-area: num-8;">8</button>
+      <button onclick="append(9)" style="grid-area: num-9;">9</button>
+      <button onclick="append('.')" style="grid-area: point;">.</button>
+    </div>
+    <script>
+      var $result = document.querySelector(".result");
+      // $result.onclick = function () {
+      // $result.setAttribute("contenteditable", true);   //让div进入可编辑状态
+      // };
+      var result = 0;
+      var isPoint = false; //允许输入小数点
+      var isMath = false; //允许输入加减乘除
+      var isStart = false; //没有输入数字
+      results(result);
+      //判断+-×÷   为假说明点击的是数字为真输入的是运算符
+      function Maths(num) {
+        return ["+", "-", "×", "÷"].indexOf(num) != -1;
+      }
+      // 点击+-×÷.num
+      function append(num) {
+        //第一次点击是0并且点击的是数字
+        if (String(result) === "0" && !Maths(num)) {
+          // 如过点击的是小数点就是0加.
+          if (num === ".") {
+            result += String(num);
+            results(result);
+            //输了一次小数点了不允许再输了不能直接.之后接运算符号
+            isPoint = true;
+            isMath = true;
+            // 如多不是小数点就替换成点击的数字
+          } else {
+            result = String(num);
+            results(result);
+          }
+          isStart = true;
+          return;
+        }
+        //输入的是数字
+        if (!Maths(num)) {
+          // 如果输入的是点且isPoint==true的话就不执行下面的逻辑
+          if (num === "." && isPoint) {
+            return;
+          }
+          if (num === ".") {
+            isPoint = true;
+            isMath = true;
+          } else {
+            isMath = false;
+          }
+          result += String(num);
+          results(result);
+        }
+        //如果输入的是运算符号
+        if (Maths(num)) {
+          if (isMath) {
+            return;
+          }
+          result += String(num);
+          results(result);
+          isPoint = false;
+          isMath = true;
+        }
+      }
+      // 点击=
+      function equal() {
+        let cheng = String(result).indexOf("×") != -1;
+        let chu = String(result).indexOf("÷") != -1;
+        let jia = String(result).indexOf("+") != -1;
+        let jian = String(result).indexOf("-") != -1;
+        if (cheng || chu || jia || jian) {
+          //替换所有的×、÷为*、/
+          result = result.replace(/×/g, "*").replace(/÷/g, "/");
+          if (result.length >= 18) {
+            result = result.substring(0, 18);
+          }
+          result = parseFloat(eval(result).toFixed(18));
+          results(result);
+        } else {
+          results(result);
+        }
+      }
+      // 点击±
+      function pm() {
+        let cheng = String(result).indexOf("×") != -1;
+        let chu = String(result).indexOf("÷") != -1;
+        let jia = String(result).indexOf("+") != -1;
+        let jian = String(result).indexOf("-") != -1;
+        if (isMath && isStart) {
+          return;
+        }
+        if (cheng || chu || jia || jian) {
+          return;
+        }
+        result = result * "-1";
+        results(result);
+      }
+      //点击%
+      function percent() {
+        let cheng = String(result).indexOf("×") != -1;
+        let chu = String(result).indexOf("÷") != -1;
+        let jia = String(result).indexOf("+") != -1;
+        let jian = String(result).indexOf("-") != -1;
+        if (isMath && isStart) {
+          return;
+        }
+        if (cheng || chu || jia || jian) {
+          return;
+        }
+        result = result * "0.01";
+        results(result);
+      }
+      // 点击AC
+      function clears() {
+        result = 0;
+        isPoint = false;
+        isMath = false;
+        isStart = false;
+        results(result);
+      }
+      // 给结果赋值
+      function results(result) {
+        if (result.length >= 18) {
+          result = result.substring(0, 18);
+        }
+        $result.innerText = String(result);
+      }
+    </script>
+  </body>
+</html>

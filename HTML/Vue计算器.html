@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    :root {
+      --button-width: 80px;
+      --button-height: 80px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #eee;
+      min-height: 100vh;
+    }
+    .container {
+      display: grid;
+      grid-template-areas:
+        "result result result result"
+        "clear pm percent except"
+        "num-7 num-8 num-9 pursue"
+        "num-4 num-5 num-6 subtract"
+        "num-1 num-2 num-3 add"
+        "num-0 num-0 point equal";
+      grid-template-columns: repeat(4, var(--button-width));
+      grid-template-rows: repeat(6, var(--button-height));
+      border-radius: 20px;
+      background: #f5f5f5;
+      box-shadow: 5px 5px 6px #e1e1e1, -5px -5px 6px #ffffff;
+      padding: 20px;
+    }
+    .result {
+      width: calc(var(--button-width) * 3.5);
+      height: var(--button-height);
+      text-align: right;
+      padding: 0 20px;
+      font-size: 26px;
+      line-height: var(--button-height);
+      user-select: none;
+      border-radius: 20px;
+      background: #f5f5f5;
+      box-shadow: 5px 5px 6px #e1e1e1 inset, -5px -5px 6px #ffffff inset;
+      overflow: hidden;
+    }
+    button {
+      margin: 8px;
+      border-radius: calc(var(--button-height) / 2);
+      background: #f5f5f5;
+      box-shadow: 5px 5px 9px #e4e4e4, -5px -5px 9px #ffffff;
+      border: none;
+      outline: none;
+      font-size: 22px;
+      color: #999999;
+      user-select: none;
+    }
+    button.box {
+      box-shadow: 5px 5px 9px #e4e4e4 inset, -5px -5px 9px #ffffff inset;
+    }
+    button:active {
+      box-shadow: 5px 5px 9px #e4e4e4 inset, -5px -5px 9px #ffffff inset;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="result" style="grid-area: result;">{{ equal }}</div>
+        <button style="grid-area: clear;" @click="clears()">AC</button>
+        <button @click="pm()" style="grid-area: pm;">±</button>
+        <button @click="percent()" style="grid-area: percent;">%</button>
+        <button @click="equals()" style="grid-area: equal;">=</button>
+        <button @click="append(0)" style="grid-area: num-0;">0</button>
+        <button @click="append(1)" style="grid-area: num-1;">1</button>
+        <button @click="append(2)" style="grid-area: num-2;">2</button>
+        <button @click="append(3)" style="grid-area: num-3;">3</button>
+        <button @click="append(4)" style="grid-area: num-4;">4</button>
+        <button @click="append(5)" style="grid-area: num-5;">5</button>
+        <button @click="append(6)" style="grid-area: num-6;">6</button>
+        <button @click="append(7)" style="grid-area: num-7;">7</button>
+        <button @click="append(8)" style="grid-area: num-8;">8</button>
+        <button @click="append(9)" style="grid-area: num-9;">9</button>
+        <button @click="append('-')" style="grid-area: subtract;">-</button>
+        <button @click="append('÷')" style="grid-area: except;">÷</button>
+        <button @click="append('×')" style="grid-area: pursue;">×</button>
+        <button @click="append('+')" style="grid-area: add;">+</button>
+        <button @click="append('.')" style="grid-area: point;">.</button>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          equal: 0,
+          isMaths: false,
+          isPoint: false,
+          isStart: false,
+          isPm: false,
+          isPercent: false,
+        },
+        created() {
+          this._key();
+        },
+        methods: {
+          _key() {
+            var $button = document.querySelectorAll("button");
+            // $button[3].classList.add("box");
+            var _this = this;
+            document.onkeyup = function (e) {
+              let key = window.event.keyCode;
+              var keyCodeArray = [
+                "48",
+                "49",
+                "50",
+                "51",
+                "52",
+                "53",
+                "54",
+                "55",
+                "56",
+                "57",
+                "189",
+                "191",
+                "190",
+              ];
+              var numArray = [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "-",
+                "÷",
+                ".",
+              ];
+              for (i = 0; i < keyCodeArray.length; i++) {
+                if (keyCodeArray[i] == key) {
+                  _this.append(numArray[i]);
+                }
+              }
+              if (key == 8) {
+                if (String(_this.equal).length > 1) {
+                  _this.equal = String(_this.equal).substring(
+                    0,
+                    String(_this.equal).length - 1
+                  );
+                } else {
+                  _this.equal = "0";
+                }
+              }
+              if (e.shiftKey && key == 56) {
+                let oldVal = String(_this.equal).substring(
+                  0,
+                  String(_this.equal).length - 1
+                );
+                _this.equal = oldVal + "×";
+              }
+              if (e.shiftKey && key == 187) {
+                let oldVal = String(_this.equal);
+                _this.equal = oldVal + "+";
+              }
+              if (key == 110) {
+                let oldVal = String(_this.equal);
+                _this.equal = oldVal + ".";
+              }
+              if (key == 187 || key == 13) {
+                _this.equals();
+              }
+            };
+          },
+          //true为运算符，false为数字
+          Maths(num) {
+            return ["+", "-", "×", "÷"].indexOf(num) != -1;
+          },
+          append(num) {
+            if (String(this.equal) === "0" && !this.Maths(num)) {
+              if (String(num) === ".") {
+                this.equal += String(num);
+                this.isPoint = true;
+              } else {
+                this.equal = String(num);
+              }
+              this.isStart = true;
+              return;
+            }
+            if (!this.Maths(num)) {
+              if (String(num) === "." && this.isPoint) {
+                return;
+              }
+              if (String(num) === ".") {
+                this.isPoint = true;
+              }
+              this.equal += String(num);
+              this.isMaths = false;
+            }
+            if (this.Maths(num)) {
+              if (this.isMaths) {
+                return;
+              }
+              this.equal += String(num);
+              this.isMaths = true;
+              this.isPoint = false;
+            }
+          },
+          equals() {
+            let cheng = String(this.equal).indexOf("×") != -1;
+            let chu = String(this.equal).indexOf("÷") != -1;
+            let jia = String(this.equal).indexOf("+") != -1;
+            let jian = String(this.equal).indexOf("-") != -1;
+            if (cheng || chu || jia || jian) {
+              let result = String(this.equal)
+                .replace(/×/g, "*")
+                .replace(/÷/g, "/");
+              this.equal = parseFloat(eval(String(result)).toFixed(18));
+            } else {
+              this.equal = String(this.equal);
+            }
+          },
+          pm() {
+            let cheng = String(this.equal).indexOf("×") != -1;
+            let chu = String(this.equal).indexOf("÷") != -1;
+            let jia = String(this.equal).indexOf("＋") != -1;
+            let jian = String(this.equal).indexOf("-") != -1;
+            if (
+              cheng ||
+              chu ||
+              jia ||
+              this.equal.toString().split("")[0] != "-"
+            ) {
+              return;
+            } else {
+              if (this.isPm) {
+                this.equal = this.equal * "-1";
+                this.isPm = false;
+              } else {
+                this.equal = this.equal * "-1";
+                this.isPm = true;
+              }
+            }
+          },
+          percent() {
+            let cheng = String(this.equal).indexOf("×") != -1;
+            let chu = String(this.equal).indexOf("÷") != -1;
+            let jia = String(this.equal).indexOf("＋") != -1;
+            let jian = String(this.equal).indexOf("-") != -1;
+            if (cheng || chu || jia || jian) {
+              return;
+            } else {
+              //第一次点%
+              if (!this.isPercent) {
+                this.equal = this.equal * "0.01";
+                this.isPercent = true;
+                //第二次点%
+              } else {
+                this.equal = this.equal * "100";
+                this.isPercent = false;
+              }
+            }
+          },
+          clears() {
+            (this.equal = 0),
+              (this.isMaths = false),
+              (this.isPoint = false),
+              (this.isStart = false);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

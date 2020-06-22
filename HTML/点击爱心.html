@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      min-height: 97vh;
+      cursor: pointer;
+    }
+    div {
+      display: inline-block;
+      position: absolute;
+      animation: div linear 0.8s;
+      animation-delay: 0.1s;
+      transition: all linear 1s;
+      user-select: none;
+      font-size: 20px;
+    }
+    @keyframes div {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px);
+        font-size: 30px;
+        opacity: 0;
+      }
+    }
+  </style>
+  <body>
+    <script>
+      emojis = [
+        "🧡",
+        "💛",
+        "💚",
+        "💙",
+        "💜",
+        "❤",
+        "💕",
+        "💞",
+        "💓",
+        "💗",
+        "💖",
+        "💘",
+        "💝",
+        "💟",
+        "💌",
+      ];
+      let arr = [...emojis, ...emojis];
+      //   let newArr = [];
+      console.log(arr);
+      //   arr.map((item) => {
+      //     newArr.push({
+      //       val: item,
+      //       key: Math.random(),
+      //     });
+      //   });
+      //   let arrMap = newArr.sort((a, b) => b.key - a.key).map((item) => item.val);
+      //   console.log(newArr);
+      //   console.log(arrMap);
+      //   function Array(arr) {
+      //     let newArr = arr.map((item) => ({ val: item, key: Math.random() }));
+      //     let arrMap = newArr
+      //       .sort((a, b) => b.key - a.key)
+      //       .map((item) => item.val);
+      //     return arrMap;
+      //   }
+      function shuffle(arr) {
+        var len = arr.length;
+        for (var i = 0; i < len - 1; i++) {
+          var index = parseInt(Math.random() * (len - i));
+          //   var temp = arr[index];
+          //   arr[index] = arr[len - i - 1];
+          //   arr[len - i - 1] = temp;
+          [arr[i], arr[index]] = [arr[index], arr[i]];
+        }
+        return arr;
+      }
+      console.log(shuffle(arr));
+      var $body = document.body;
+      (function (arr) {
+        var isClick = true;
+        $body.addEventListener("click", (e) => {
+          if (isClick == true) {
+            $div = document.createElement("div");
+            let jqrNum = parseInt(Math.random() * (arr.length - 1));
+            console.log(jqrNum);
+            $title = document.createTextNode(emojis[jqrNum]);
+            $div.style.left = `${e.clientX - 14}px`;
+            $div.style.top = `${e.clientY - 24}px`;
+            $div.appendChild($title);
+            $body.appendChild($div);
+            isClick = false;
+            $div.addEventListener("animationend", (e) => {
+              isClick = true;
+              $body.removeChild($div);
+            });
+          }
+        });
+      })(emojis);
+    </script>
+  </body>
+</html>

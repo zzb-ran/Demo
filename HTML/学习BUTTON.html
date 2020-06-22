@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    :root {
+      --body-dark-bgcolor: #1c1c1e;
+      --button-width: 500px;
+      --button-height: 295px;
+      --button-bgcolor: #e9e9ea;
+      --button-animation-bgcolor: #30d158;
+      --button-drak-bgcolor: #39393d;
+      --circle-width: 240px;
+      --circle-bgcolor: #ffffff;
+      --circle-offset: calc((var(--button-height) - var(--circle-width)) / 2);
+      --circle-boxshow: 10px;
+      --circle-animation-width: 310px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    span {
+      display: inline-block;
+      width: var(--button-width);
+      height: var(--button-height);
+      background-color: var(--button-bgcolor);
+      border-radius: calc(var(--button-width) / 2);
+      position: relative;
+    }
+    span::after {
+      content: "";
+      display: block;
+      width: var(--circle-width);
+      height: var(--circle-width);
+      background-color: var(--circle-bgcolor);
+      border-radius: calc(var(--circle-width) / 2);
+      box-shadow: var(--circle-boxshow) 0 calc(var(--circle-boxshow) * 4)
+        rgba(1, 1, 1, 0.1);
+      position: absolute;
+      top: var(--circle-offset);
+      transform: translateX(var(--circle-offset));
+      transition: all 0.2s linear;
+    }
+    input[type="checkbox"]:checked + span {
+      background-color: var(--button-animation-bgcolor);
+    }
+    input[type="checkbox"]:checked + span::after {
+      transform: translateX(
+        calc(var(--button-width) - var(--circle-offset) - var(--circle-width))
+      );
+      box-shadow: calc(var(--circle-boxshow) * -1) 0
+        calc(var(--circle-boxshow) * 4) rgba(1, 1, 1, 0.1);
+      transition: all 0.2s linear;
+    }
+    input[type="checkbox"]:active + span::after {
+      width: var(--circle-animation-width);
+    }
+    input[type="checkbox"]:checked:active + span::after {
+      transform: translateX(
+        calc(
+          var(--button-width) - var(--circle-animation-width) -
+            var(--circle-offset)
+        )
+      );
+    }
+    /* 检查系统是否为深色模式 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--body-dark-bgcolor);
+      }
+      span {
+        background-color: var(--button-drak-bgcolor);
+      }
+    }
+  </style>
+  <body>
+    <label for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <span></span>
+    </label>
+  </body>
+</html>

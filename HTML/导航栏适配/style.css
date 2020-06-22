@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+header {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://img02.sogoucdn.com/app/a/100520021/d161b030a21dc1406813a2b017b23f76");
+    background-size: cover;
+}
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw;
+    width: 100vw;
+    height: 80px;
+    background-color: rgba(1, 1, 1, 0.6);
+}
+
+.logo {
+    flex: 1;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.nav-menu {
+    flex: 1;
+    display: flex;
+    max-width: 500px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-menu li {
+    color: white;
+    font-weight: 600;
+}
+
+.icon div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px;
+}
+
+.icon {
+    display: none;
+}
+
+
+/* 媒体查询 */
+
+@media screen and (max-width:768px) {
+    .nav-menu {
+        position: absolute;
+        top: 80px;
+        right: 0;
+        bottom: 0;
+        width: 40vw;
+        height: calc(100vh - 80px);
+        background-color: rgba(1, 1, 1, 0.6);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        transform: translateX(100vw);
+        transition: ease-out 0.2s;
+        opacity: 0;
+    }
+    .nav-menu.off {
+        transform: translateX(0);
+        transition: 0.2s ease-in-out 0.2s;
+        opacity: 1;
+    }
+    .nav-menu li {
+        margin: 3vh;
+        transform: translateX(100px);
+    }
+    .icon {
+        display: block;
+    }
+    .icon.active div {
+        transition: 0.3s ease-in-out 0.3s;
+        background-color: red;
+    }
+    .icon div {
+        transition: 0.3s ease-in-out 0.3s;
+    }
+    .icon .top-line {
+        transform: rotate(0deg) translate(0px, 0px);
+    }
+    .icon .bottom-line {
+        transform: rotate(0deg) translate(0px, 0px);
+    }
+    .icon .middle-line {
+        opacity: 1;
+        transform: translateX(0px);
+        transition: 0.3s ease-in-out;
+    }
+    .icon.active .top-line {
+        transform: rotate(45deg) translate(4px, 5.5px);
+    }
+    .icon.active .bottom-line {
+        transform: rotate(-45deg) translate(4px, -5.5px);
+    }
+    .icon.active .middle-line {
+        opacity: 0;
+        transform: translateX(10px);
+        transition: 0.3s ease-in-out;
+    }
+    @keyframes identifier {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      min-height: 97vh;
+      cursor: pointer;
+    }
+    div {
+      display: inline-block;
+      position: absolute;
+      animation: div linear 0.6s;
+      animation-delay: 0.1s;
+      transition: all linear 0.8s;
+      user-select: none;
+    }
+    @keyframes div {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-60px);
+        font-size: 20px;
+        opacity: 0;
+      }
+    }
+  </style>
+  <body>
+    <script>
+      var jqArray = [
+        "立春",
+        "惊蛰",
+        "清明",
+        "立夏",
+        "芒种",
+        "小暑",
+        "立秋",
+        "白露",
+        "寒露",
+        "立冬",
+        "大雪",
+        "小寒",
+        "雨水",
+        "春分",
+        "谷雨",
+        "小满",
+        "夏至",
+        "大暑",
+        "处暑",
+        "秋分",
+        "霜降",
+        "小雪",
+        "冬至",
+        "大寒",
+      ];
+      var $body = document.body;
+      (function () {
+        var isClick = true;
+        $body.addEventListener("click", (e) => {
+          if (isClick == true) {
+            $div = document.createElement("div");
+            let jqrNum = parseInt(Math.random() * 23);
+            let colorrNum = `rgba(${parseInt(Math.random() * 255)},${parseInt(
+              Math.random() * 255
+            )},${parseInt(Math.random() * 255)},${(Math.random() + 0.4).toFixed(
+              1
+            )})`;
+            $title = document.createTextNode(jqArray[jqrNum]);
+            $div.style.left = `${e.clientX - 30}px`;
+            $div.style.top = `${e.clientY - 20}px`;
+            $div.style.color = colorrNum;
+            $div.appendChild($title);
+            $body.appendChild($div);
+            isClick = false;
+            $div.addEventListener("animationend", (e) => {
+              // $body.innerHTML = "";
+              isClick = true;
+              $body.removeChild($div);
+            });
+          }
+        });
+      })();
+
+      //   function sdd() {
+      //     $body.addEventListener("click", (e) => {
+      //       $div = document.createElement("div");
+      //       let jqrNum = parseInt(Math.random() * 23);
+      //       let colorrNum = parseInt(Math.random() * 6);
+      //       $title = document.createTextNode(jqArray[jqrNum]);
+      //       $div.style.left = `${e.clientX}px`;
+      //       $div.style.top = `${e.clientY}px`;
+      //       $div.style.color = `rgb(${colorArray[colorrNum]})`;
+      //       $div.appendChild($title);
+      //       $body.appendChild($div);
+      //       $div.addEventListener("animationend", (e) => {
+      //         $body.innerHTML = "";
+      //         $body.removeChild($div);
+      //       });
+      //       $div.addEventListener("transtionend", (e) => {
+      //         $body.innerHTML = "";
+      //         $body.removeChild($div);
+      //       });
+      //     });
+      //   }
+      //   sdd();
+    </script>
+  </body>
+</html>

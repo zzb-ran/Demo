@@ -1,0 +1,44 @@
+{
+  "id": "1633573",
+  "name": "borde",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7100392",
+      "name": "发现",
+      "font_class": "faxian",
+      "unicode": "e726",
+      "unicode_decimal": 59174
+    },
+    {
+      "icon_id": "9560295",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "11372674",
+      "name": "关注",
+      "font_class": "guanzhu",
+      "unicode": "e8b1",
+      "unicode_decimal": 59569
+    },
+    {
+      "icon_id": "11372726",
+      "name": "消息中心",
+      "font_class": "xiaoxizhongxin",
+      "unicode": "e8be",
+      "unicode_decimal": 59582
+    },
+    {
+      "icon_id": "1110450",
+      "name": "音乐",
+      "font_class": "yinle",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    }
+  ]
+}

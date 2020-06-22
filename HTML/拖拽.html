@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Charm&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+    }
+    .content {
+      padding: 20px;
+    }
+    .select_warp {
+      background: white;
+      position: relative;
+      min-width: 230px;
+      max-width: 560px;
+    }
+    .select_warp .content {
+      padding-right: 34px;
+    }
+    .select_warp .content img {
+      margin: 0 auto;
+      width: 100%;
+      height: 100%;
+    }
+    .select {
+      width: 14px;
+      height: 100%;
+      background: white;
+      position: absolute;
+      right: 0;
+      top: 0;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: col-resize;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .select i {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: #e9e9e9;
+      margin: 0 2px;
+    }
+    .main {
+      flex: 1;
+      background: white;
+      font-size: 36px;
+      font-family: "Charm", cursive;
+    }
+    .main .content::selection {
+      background: black;
+      color: white;
+    }
+    .main .content::-moz-selection {
+      background: black;
+      color: white;
+    }
+    .main .content::-webkit-selection {
+      background: black;
+      color: white;
+    }
+  </style>
+  <body>
+    <div class="select_warp">
+      <div class="content">
+        <img
+          src="https://pic1.zhimg.com/50/v2-2592874e89a79cbd0aaa7bee784aa335_hd.jpg"
+        />
+      </div>
+      <div class="select">
+        <i></i>
+        <i></i>
+      </div>
+    </div>
+    <div class="main">
+      <div class="content">
+        Victory belongs to the most persevering
+      </div>
+    </div>
+    <script>
+      var startX;
+      var startWidth =
+        `${localStorage.getItem("select_warp_width")}px` || selectWarpWidth();
+      document.querySelector(".select_warp").style.width = startWidth;
+      document
+        .querySelector(".select")
+        .addEventListener("mousedown", downSelect);
+      function downSelect(e) {
+        startX = e.clientX;
+        startWidth = selectWarpWidth();
+        // 有IE兼容问题
+        // startWidth = window.getComputedStyle(
+        //   document.querySelector(".select_warp")
+        // ).width;
+        document.documentElement.addEventListener("mousemove", overSelect);
+        document.documentElement.addEventListener("mouseup", upSelect);
+      }
+
+      function overSelect(e) {
+        let newWidth = startWidth + e.clientX - startX;
+        document.querySelector(".select_warp").style.width = `${newWidth}px`;
+      }
+
+      function upSelect() {
+        localStorage.setItem("select_warp_width", selectWarpWidth());
+        document.documentElement.removeEventListener("mousemove", overSelect);
+        document.documentElement.removeEventListener("mouseup", upSelect);
+      }
+
+      function selectWarpWidth() {
+        return document.querySelector(".select_warp").clientWidth;
+      }
+    </script>
+  </body>
+</html>

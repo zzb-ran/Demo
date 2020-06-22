@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+.keypad {
+    width: 40px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad::after,
+.keypad::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 50px;
+    background-color: white;
+    position: absolute;
+    transition: 0.3s ease 0.02s;
+}
+
+.keypad::after {
+    position: relative;
+    left: 25px;
+}
+
+.keypad.active::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 25px;
+    background-color: transparent;
+    border-top: 12.5px solid transparent;
+    border-bottom: 12.5px solid transparent;
+    /* border-right: 15px solid red; */
+    border-left: 20px solid white;
+}
+
+.keypad.active::after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 0;
+    background-color: transparent;
+    border-top: 12.5px solid transparent;
+    border-bottom: 12.5px solid transparent;
+    border-left: 20px solid white;
+}

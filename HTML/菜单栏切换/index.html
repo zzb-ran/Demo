@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1633573_5awyb0l7j0s.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div id="item-box">
+            <div class="item-list" :class="{active:activeIndex == index}" v-for=" (item,index) in itemData " :key="item.id " @click="activeIndex=index ">
+                <!-- 动态class方法:':class=" [ 'iconfont', 'icon',item.icon] "' -->
+                <i :class="[ 'icon', 'iconfont',item.icon] "></i>
+                <p class="title " v-text="item.title "></p>
+            </div>
+            <div class="zzz " :style="{ 'left':activeIndex * 130+ 'px'}"></div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+    <script>
+        new Vue({
+            el: "#item-box ",
+            data() {
+                return {
+                    activeIndex: 0,
+                    itemData: [{
+                        id: "1 ",
+                        title: "首页 ",
+                        icon: "icon-shouye "
+                    }, {
+                        id: "2 ",
+                        title: "关注 ",
+                        icon: "icon-guanzhu "
+                    }, {
+                        id: "3 ",
+                        title: "发现 ",
+                        icon: "icon-faxian "
+                    }, {
+                        id: "4 ",
+                        title: "消息中心 ",
+                        icon: "icon-xiaoxizhongxin "
+                    }]
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
