@@ -20,7 +20,7 @@
     }
     #app {
       width: 500px;
-      height: 100px;
+      height: 80px;
       background-color: black;
       border-radius: 10px;
       color: white;
@@ -28,8 +28,9 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 32px 20px;
+      padding: 30px 10px;
       position: relative;
+      font-size: 76px;
     }
     #app::after {
       position: absolute;
@@ -51,28 +52,29 @@
       display: block;
       width: 100px;
       height: 100%;
-      line-height: 100px;
+      line-height: 80px;
       text-align: center;
-      font-size: 76px;
-      transform: translateY(-100px);
+      transform: translateY(-80px);
     }
     span::after {
       display: block;
       content: attr(data-after);
+      font-size: 68px;
     }
     span::before {
       display: block;
       content: attr(data-before);
+      font-size: 68px;
     }
     span.after {
-      transform: translateY(-200px);
-      transition: ease-in 0.2s;
+      transform: translateY(-160px);
+      transition: transform ease-in 0.2s;
     }
     span:nth-child(2),
     span:nth-child(4) {
       width: 50px;
       font-size: 60px;
-      line-height: 92px;
+      line-height: 72px;
       transform: translateY(0);
     }
   </style>
