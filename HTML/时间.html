@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>动态滚动时间</title>
+  </head>
+  <style>
+    [v-cloak] {
+      display: none !important;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #app {
+      width: 500px;
+      height: 100px;
+      background-color: black;
+      border-radius: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 32px 20px;
+      position: relative;
+    }
+    #app::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0) 30%,
+        rgba(0, 0, 0, 0) 70%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+    }
+    span {
+      display: block;
+      width: 100px;
+      height: 100%;
+      line-height: 100px;
+      text-align: center;
+      font-size: 76px;
+      transform: translateY(-100px);
+    }
+    span::after {
+      display: block;
+      content: attr(data-after);
+    }
+    span::before {
+      display: block;
+      content: attr(data-before);
+    }
+    span.after {
+      transform: translateY(-200px);
+      transition: ease-in 0.2s;
+    }
+    span:nth-child(2),
+    span:nth-child(4) {
+      width: 50px;
+      font-size: 60px;
+      line-height: 92px;
+      transform: translateY(0);
+    }
+  </style>
+  <body>
+    <div id="app" v-cloak>
+      <span
+        :class="{ after:isHourAfter }"
+        :data-after="hourAfter"
+        :data-before="hourBefroe"
+        >{{ hour }}</span
+      >
+      <span>:</span>
+      <span
+        :class="{ after:isMinAfter }"
+        :data-after="minAfter"
+        :data-before="minBefroe"
+        >{{ min }}</span
+      >
+      <span>:</span>
+      <span
+        :class="{ after:isSecAfter }"
+        :data-after="secAfter"
+        :data-before="secBefroe"
+        >{{ sec }}</span
+      >
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          hour: "",
+          min: "",
+          sec: "",
+          hourBefroe: "",
+          hourAfter: "",
+          minBefroe: "",
+          minAfter: "",
+          secBefroe: "",
+          secAfter: "",
+          isHourAfter: false,
+          isMinAfter: false,
+          isSecAfter: false,
+        };
+      },
+      mounted() {
+        this.getTime();
+      },
+      methods: {
+        getTime() {
+          const date = new Date();
+          const h = date.getHours();
+          const m = date.getMinutes();
+          const s = date.getSeconds();
+          this.hour = this.Time(h);
+          this.min = this.Time(m);
+          this.sec = this.Time(s);
+          setTimeout(this.getTime, 1000);
+        },
+        Time(date) {
+          return date <= 9 ? `0${date}` : date;
+        },
+      },
+      watch: {
+        hour() {
+          this.isAfter = true;
+          setTimeout(() => {
+            this.hourBefroe = this.hour <= 0 ? "00" : this.Time(this.hour - 1);
+            this.hourAfter = this.hour >= 23 ? "00" : this.Time(+this.hour + 1);
+            this.isHourAfter = false;
+          }, 200);
+        },
+        min() {
+          this.isMinAfter = true;
+          setTimeout(() => {
+            this.minBefroe = this.min <= 0 ? "00" : this.Time(this.min - 1);
+            this.minAfter = this.min >= 59 ? "00" : this.Time(+this.min + 1);
+            this.isMinAfter = false;
+          }, 200);
+        },
+        sec() {
+          this.isSecAfter = true;
+          setTimeout(() => {
+            this.secBefroe = this.sec <= 0 ? "00" : this.Time(this.sec - 1);
+            this.secAfter = this.sec >= 59 ? "00" : this.Time(+this.sec + 1);
+            this.isSecAfter = false;
+          }, 200);
+        },
+      },
+    });
+  </script>
+</html>
