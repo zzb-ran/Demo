@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可乐</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .kele{
+        background: url('./images/bizhi.png') repeat-x 0 10px;
+        animation: kele 5s linear infinite;
+    }
+
+    @keyframes kele {
+        from{
+            background-position: 0 10px;
+        }
+        to{
+            background-position: -537px 10px;
+        }
+    }
+</style>
+<body>
+    <div class="kele">
+        <img src="images/body.png" alt="">
+    </div>
+</body>
+</html>
